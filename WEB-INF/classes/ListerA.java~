@@ -1,0 +1,61 @@
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.WebServlet;
+import java.sql.*;
+
+@WebServlet("/servlet/ListerA")
+public class ListerA extends HttpServlet 
+{
+	public void service( HttpServletRequest req, HttpServletResponse res)
+	throws ServletException, IOException
+	{   
+		res.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = res.getWriter();
+		String tri = req.getParameter("tri");
+		String sens = req.getParameter("sens");
+		out.println( "<html><body>");
+		out.println( "<h1>Lister</h1>" );
+		out.println("<table border =\"1\">");
+		out.println("<tr><th><a href=http://localhost:8080/vide/servlet/ListerA?tri=nom>nom</a></th>");
+		out.println("<th><a href=http://localhost:8080/vide/servlet/ListerA?tri=annee>annee</a></th>");
+		out.println("<th><a href=http://localhost:8080/vide/servlet/ListerA?tri=nationalite>nationalite</a></th>");
+		out.println("<th><a href=http://localhost:8080/vide/servlet/ListerA?tri=categ>categ</a></th>");
+		out.println("<th><a href=http://localhost:8080/vide/servlet/ListerA?tri=club>club</a></th>");
+		out.println("<th><a href=http://localhost:8080/vide/servlet/ListerA?tri=temps>temps</a></th></tr>");
+		try{
+			String url = "jdbc:odbc:resulats";
+			Connection con=null;
+			String query="select * from Resultats";
+			if(tri != null){
+				if(sens != null){
+					query = "select * from Resultats order by \""+tri+"\""+sens;
+				}else{
+					query = "select * from Resultats order by \""+tri+"\"";
+				}
+			}
+			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+			con = DriverManager.getConnection(url, "massiaua", "moi");
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			out.println("<h1>Liste des joueurs:</h1>");
+			
+			while(rs.next()){
+				String n = rs.getString(1);
+				int a = rs.getInt(2);
+				String nat = rs.getString(3);
+				String cat = rs.getString(4);
+				String club = rs.getString(5);
+				int tps = rs.getInt(6);
+				
+				out.println("<tr><td>"+" "+n+" "+"</td><td>"+" "+a+" "+"</td><td>"+" "+nat+" "+"</td><td>"+" "+cat+" "+"</td><td>"+" "+club+" "+"</td><td>"+" "+tps+" "+"</td></tr>");
+			}
+			con.close();
+			out.println("</table>");
+		}catch(Exception e){
+			e.getMessage();
+		}
+		out.println( "</body></html>" );
+	}
+}

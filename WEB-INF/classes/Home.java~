@@ -1,0 +1,49 @@
+import java.sql.*;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.WebServlet;
+
+@WebServlet("/servlet/Home")
+public class Home extends HttpServlet{
+    public void service(HttpServletRequest rq, HttpServletResponse res)
+	throws ServletException, IOException{
+
+	//Debut servlet
+	PrintWriter out = res.getWriter();
+	res.setContentType( "text/html");
+	out.println("<head><title>Lister</title></head><body><center>");
+	
+	
+	Connection con = null;
+
+	try{
+	    //Connection afin de recuperer la table
+	    Class.forName("org.postgresql.Driver");
+	    String url="jdbc:postgresql:/";
+	    con = DriverManager.getConnection(url,"alex");
+	    Statement stm = con.createStatement();
+	    String query = "Select * from playground;";
+	    ResultSet rs = stm.executeQuery(query);
+	    
+
+	    out.println("<table border=\"1\">");
+
+
+	    while(rs.next()){
+		out.println("<tr><td>"+rs.getInt(1)+"</td><td>"+rs.getString(2)+"</td><td>"+rs.getInt(3)+"</td></tr>");
+	    }
+
+	    out.println("</table>");
+
+	}catch(Exception e){
+	    out.println(e.getMessage());
+	}finally{
+	    try{
+	    con.close();
+	    }catch(Exception e){}
+	}
+
+	out.println("</center></body>");
+    }
+}

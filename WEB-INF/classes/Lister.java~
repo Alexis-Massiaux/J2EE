@@ -1,0 +1,46 @@
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.WebServlet;
+import java.sql.*;
+
+@WebServlet("/servlet/Lister")
+public class Lister extends HttpServlet 
+{
+	public void service( HttpServletRequest req, HttpServletResponse res)
+	throws ServletException, IOException
+	{   
+		res.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = res.getWriter();
+		out.println( "<html><body>");
+		out.println( "<h1>Lister</h1>" );
+		out.println("<table border =\"1\">");
+		try{
+			String url = "jdbc:postgresql://psqlserv/n3p1";
+			Connection con=null;
+			String query = "select * from Resultats";
+			Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+			con = DriverManager.getConnection(url, "massiaua", "moi");
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			out.println("<h1>Liste des joueurs:</h1>");
+			
+			while(rs.next()){
+				String n = rs.getString("nom");
+				int a = rs.getInt("annee");
+				String nat = rs.getString("nationalite");
+				String cat = rs.getString("categ");
+				String club = rs.getString("club");
+				int tps = rs.getInt("temps");
+				
+				out.println("<tr><td>"+" "+n+" "+"</td><td>"+" "+a+" "+"</td><td>"+" "+nat+" "+"</td><td>"+" "+cat+" "+"</td><td>"+" "+club+" "+"</td><td>"+" "+tps+" "+"</td></tr>");
+			}
+			con.close();
+			out.println("</table>");
+		}catch(Exception e){
+			e.getMessage();
+		}
+		out.println( "</body></html>" );
+	}
+}
