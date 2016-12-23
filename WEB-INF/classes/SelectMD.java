@@ -43,6 +43,8 @@ public class SelectMD extends HttpServlet{
 		out.println("<TH>"+rsmd.getColumnName(i)+"</TH>");
 	    }
 
+	    out.println("<TH>Delete</TH>");
+
 	    while(rs.next()){
 		out.println("<TR>");
 		for(int j=1; j<=taille; j++){
@@ -50,6 +52,7 @@ public class SelectMD extends HttpServlet{
 		    out.println(rs.getString(j));
 		    out.println("</TD>");
 		}
+		out.println("<TD><A HREF=\"/bonus/servlet/Delete?table="+table+"&cle="+rs.getString(1)+"\">Delete</A></TD>");
 		out.println("</TR>");
 	    }
 
