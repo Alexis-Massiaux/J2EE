@@ -1,0 +1,20 @@
+<HTML>
+  <HEAD>
+    <TITLE>Login</TITLE>
+  </HEAD>
+  <BODY>
+    <CENTER>
+      <H1>Login</H1>
+      <FORM ACTION ="servlet/Authent" methode=post>
+
+	Login:
+	<p><input type="text" name="Utilisateur" /></p><br>
+	Mdp:
+	<p><input type="text" name="Mdp" /></p><br>
+
+	<input type="submit" value="Valider" />
+
+      </FORM>
+    </CENTER>
+  </BODY>
+</HTML>
