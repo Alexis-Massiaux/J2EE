@@ -1,0 +1,12 @@
+<HTML>
+	<HEAD>
+		<TITLE>PileOuFace</TITLE>
+	</HEAD>
+	<BODY>
+		<CENTER>
+			<H1>Pile ou Face</H1>
+			<P>Le premier arrivé à 10 a gagné !</P><BR>
+			<P>Deux faces identiques, je gagne ! Deux faces différentes, vous gagnez...</P><BR>
+		</CENTER>
+	</BODY>
+</HTML>
